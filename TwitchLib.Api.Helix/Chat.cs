@@ -58,7 +58,7 @@ namespace TwitchLib.Api.Helix
 
         #region Chatters
         /// <summary>
-        /// [BETA] - Gets the list of users that are connected to the specified broadcaster’s chat session.
+        /// Gets the list of users that are connected to the specified broadcaster’s chat session.
         /// <para>Note that there is a delay between when users join and leave a chat and when the list is updated accordingly.</para>
         /// <para>Requires a user access token that includes the moderator:read:chatters scope.</para>
         /// </summary>
