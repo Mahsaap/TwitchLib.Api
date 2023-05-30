@@ -62,7 +62,7 @@ namespace TwitchLib.Api.Helix
                 new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
             };
 
-            return TwitchPatchAsync("/guest_star/channel_settings", ApiVersion.Helix, JsonConvert.SerializeObject(request), getParams, accessToken);
+            return TwitchPutAsync("/guest_star/channel_settings", ApiVersion.Helix, JsonConvert.SerializeObject(request), getParams, accessToken);
         }
 
         #endregion
@@ -144,7 +144,7 @@ namespace TwitchLib.Api.Helix
                 new KeyValuePair<string, string>("session_id", sessionId)
             };
 
-            return TwitchPutGenericAsync<EndGuestStarSessionResponse>("/guest_star/session", ApiVersion.Helix, null, getParams, accessToken);
+            return TwitchDeleteGenericAsync<EndGuestStarSessionResponse>("/guest_star/session", ApiVersion.Helix, getParams, accessToken);
         }
         #endregion
 
@@ -168,7 +168,7 @@ namespace TwitchLib.Api.Helix
             if (string.IsNullOrEmpty(moderatorId))
                 throw new BadParameterException("moderatorId cannot be null or empty");
             if (string.IsNullOrEmpty(sessionId))
-                throw new BadParameterException("moderatorId cannot be null or empty");
+                throw new BadParameterException("sessionId cannot be null or empty");
 
             var getParams = new List<KeyValuePair<string, string>>
             {
