@@ -684,7 +684,7 @@ namespace TwitchLib.Api.Helix
         #region GetUnbanRequests
 
         /// <summary>
-        /// Gets a list of unban requests for a broadcaster’s channel.
+        /// Gets a list of unban requests for a broadcaster’s channel. Requires moderator:manage:unban_requests or moderator:read:unban_requests scope.
         /// </summary>
         /// <param name="broadcasterId">The ID of the broadcaster whose channel is receiving unban requests.</param>
         /// <param name="moderatorId">The ID of the broadcaster or a user that has permission to moderate the broadcaster’s unban requests. This ID must match the user ID in the user access token.</param>
@@ -695,7 +695,7 @@ namespace TwitchLib.Api.Helix
         /// <param name="accessToken">optional access token to override the one used while creating the TwitchAPI object</param>
         /// <returns></returns>
         /// <exception cref="BadParameterException"></exception>
-        public Task<GetUnbanRequestsResponse> GetUnbanRequestsAsync(string broadcasterId, string moderatorId, string status, string userId = null, string after = null, int first = 0, string accessToken = null)
+        public Task<GetUnbanRequestsResponse> GetUnbanRequestsAsync(string broadcasterId, string moderatorId, string status, string userId = null, string after = null, int first = 20, string accessToken = null)
         {
             if (string.IsNullOrEmpty(broadcasterId))
                 throw new BadParameterException("broadcasterId must be set");
@@ -731,7 +731,7 @@ namespace TwitchLib.Api.Helix
         #region ResolveUnbanRequests
 
         /// <summary>
-        /// Resolves an unban request by approving or denying it.
+        /// Resolves an unban request by approving or denying it. Requires moderator:manage:unban_requests scope.
         /// </summary>
         /// <param name="broadcasterId">The ID of the broadcaster whose channel is approving or denying the unban request.</param>
         /// <param name="moderatorId">	The ID of the broadcaster or a user that has permission to moderate the broadcaster’s unban requests. This ID must match the user ID in the user access token.</param>
@@ -741,7 +741,7 @@ namespace TwitchLib.Api.Helix
         /// <param name="accessToken">optional access token to override the one used while creating the TwitchAPI object</param>
         /// <returns></returns>
         /// <exception cref="BadParameterException"></exception>
-        public Task<ResolveUnbanRequestsResponse> ResolveUnbanRequestsAsync(string broadcasterId, string moderatorId, string unbanRequestId, string status, string resolutionText, string accessToken = null)
+        public Task<ResolveUnbanRequestsResponse> ResolveUnbanRequestsAsync(string broadcasterId, string moderatorId, string unbanRequestId, string status, string resolutionText = null, string accessToken = null)
         {
             if (string.IsNullOrEmpty(broadcasterId))
                 throw new BadParameterException("broadcasterId must be set");

@@ -8,7 +8,6 @@ using TwitchLib.Api.Core;
 using TwitchLib.Api.Core.Enums;
 using TwitchLib.Api.Core.Exceptions;
 using TwitchLib.Api.Core.Interfaces;
-using TwitchLib.Api.Helix.Models.Channels.SendChatMessage;
 using TwitchLib.Api.Helix.Models.Chat;
 using TwitchLib.Api.Helix.Models.Chat.Badges.GetChannelChatBadges;
 using TwitchLib.Api.Helix.Models.Chat.Badges.GetGlobalChatBadges;
@@ -19,6 +18,7 @@ using TwitchLib.Api.Helix.Models.Chat.Emotes.GetGlobalEmotes;
 using TwitchLib.Api.Helix.Models.Chat.Emotes.GetUserEmotes;
 using TwitchLib.Api.Helix.Models.Chat.GetChatters;
 using TwitchLib.Api.Helix.Models.Chat.GetUserChatColor;
+using TwitchLib.Api.Helix.Models.Chat.SendChatMessage;
 
 namespace TwitchLib.Api.Helix
 {
@@ -151,7 +151,7 @@ namespace TwitchLib.Api.Helix
         }
 
         /// <summary>
-        /// Retrieves emotes available to the user across all channels.
+        /// Retrieves emotes available to the user across all channels. Requires user:read:emotes scope.
         /// </summary>
         /// <param name="userId">The ID of the user. This ID must match the user ID in the user access token.</param>
         /// <param name="after">The cursor used to get the next page of results. The Pagination object in the response contains the cursor’s value.</param>
@@ -448,5 +448,52 @@ namespace TwitchLib.Api.Helix
         }
 
         #endregion
+
+        #region Send Chat Message
+
+        /// <summary>
+        /// Sends a message to the broadcaster’s chat room.
+        /// <para></para>Requires an app access token or user access token that includes the user:write:chat scope. 
+        /// <para></para>If app access token used, then additionally requires user:bot scope from chatting user, 
+        /// <para></para>and either channel:bot scope from broadcaster or moderator status.
+        /// </summary>
+        /// <param name="broadcasterId">The ID of the broadcaster whose chat room the message will be sent to.</param>
+        /// <param name="senderId">The ID of the user sending the message. This ID must match the user ID in the user access token.</param>
+        /// <param name="message">The message to send. The message is limited to a maximum of 500 characters. Chat messages can also include emoticons. To include emoticons, use the name of the emote. </param>
+        /// <param name="replyParentMessageId">	The ID of the chat message being replied to.</param>
+        /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
+        /// <exception cref="BadParameterException"></exception>
+        public Task<SendChatMessageResponse> SendChatMessageAsync(string broadcasterId, string senderId, string message, string replyParentMessageId = null, string accessToken = null)
+        {
+            if (string.IsNullOrWhiteSpace(broadcasterId))
+                throw new BadParameterException("BroadcasterId must be set");
+
+            if (string.IsNullOrWhiteSpace(senderId))
+                throw new BadParameterException("ToUserId must be set");
+
+            if (message == null)
+                throw new BadParameterException("Message must be set");
+
+            var msgLength = 500;
+            if (message.Length > msgLength)
+                throw new BadParameterException($"message length must be less than or equal to {msgLength} characters");
+
+            var getParams = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
+                new KeyValuePair<string, string>("sender_id", senderId),
+                new KeyValuePair<string, string>("message", message),
+            };
+
+            if (string.IsNullOrWhiteSpace(replyParentMessageId))
+            {
+                getParams.Add(new KeyValuePair<string, string>("reply_parent_message_id", replyParentMessageId));
+            }
+
+            return TwitchPostAsync("/chat/messages", ApiVersion.Helix, null, getParams, accessToken);
+        }
+
+        #endregion
+        //Send chat Message
     }
 }
