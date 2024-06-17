@@ -132,37 +132,32 @@ namespace TwitchLib.Api.Helix
         }
 
         /// <summary>
-        /// Gets information on follow relationships between two Twitch users.
-        /// <para>This can return information like “who is X following,” “who is following X,” or “is user X following user Y.”</para>
-        /// <para>Information returned is sorted in order, most recent follow first.</para>
+        /// [Obsolete] Gets information on follow relationships between two Twitch users.
+        /// <para>DO NOT USE!</para>
         /// </summary>
-        /// <param name="after">Cursor for forward pagination: tells the server where to start fetching the next set of results, in a multi-page response. </param>
-        /// <param name="before"></param>
-        /// <param name="first">Maximum number of objects to return. Maximum: 100. Default: 20.</param>
-        /// <param name="fromId">User ID. The request returns information about users who are being followed by the from_id user.</param>
-        /// <param name="toId">User ID. The request returns information about users who are following the to_id user.</param>
-        /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns cref="GetUsersFollowsResponse"></returns>
+        [Obsolete]
         public Task<GetUsersFollowsResponse> GetUsersFollowsAsync(string after = null, string before = null, int first = 20, string fromId = null, string toId = null, string accessToken = null)
         {
-            var getParams = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("first", first.ToString())
-            };
+            throw new BadParameterException("GetUsersFollows is Obsolete.");
+            //var getParams = new List<KeyValuePair<string, string>>
+            //{
+            //    new KeyValuePair<string, string>("first", first.ToString())
+            //};
 
-            if (!string.IsNullOrWhiteSpace(after))
-                getParams.Add(new KeyValuePair<string, string>("after", after));
+            //if (!string.IsNullOrWhiteSpace(after))
+            //    getParams.Add(new KeyValuePair<string, string>("after", after));
 
-            if (!string.IsNullOrWhiteSpace(before))
-                getParams.Add(new KeyValuePair<string, string>("before", before));
+            //if (!string.IsNullOrWhiteSpace(before))
+            //    getParams.Add(new KeyValuePair<string, string>("before", before));
 
-            if (!string.IsNullOrWhiteSpace(fromId))
-                getParams.Add(new KeyValuePair<string, string>("from_id", fromId));
+            //if (!string.IsNullOrWhiteSpace(fromId))
+            //    getParams.Add(new KeyValuePair<string, string>("from_id", fromId));
 
-            if (!string.IsNullOrWhiteSpace(toId))
-                getParams.Add(new KeyValuePair<string, string>("to_id", toId));
+            //if (!string.IsNullOrWhiteSpace(toId))
+            //    getParams.Add(new KeyValuePair<string, string>("to_id", toId));
 
-            return TwitchGetGenericAsync<GetUsersFollowsResponse>("/users/follows", ApiVersion.Helix, getParams, accessToken);
+            //return TwitchGetGenericAsync<GetUsersFollowsResponse>("/users/follows", ApiVersion.Helix, getParams, accessToken);
         }
 
         /// <summary>
