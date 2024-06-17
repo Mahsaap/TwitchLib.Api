@@ -13,6 +13,9 @@ using TwitchLib.Api.Helix.Models.GuestStar.UpdateChannelGuestStarSettings;
 
 namespace TwitchLib.Api.Helix;
 
+/// <summary>
+/// Gueststar related APIs
+/// </summary>
 public class GuestStar : ApiBase
 {
     public GuestStar(IApiSettings settings, IRateLimiter rateLimiter, IHttpCallHandler http) : base(settings,

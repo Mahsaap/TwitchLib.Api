@@ -1,7 +1,10 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
+namespace TwitchLib.Api.Helix.Models.Channels.SendChatMessage
 {
+    /// <summary>
+    /// Chat Message Information
+    /// </summary>
     public class ChatMessageInfo
     {
         /// <summary>

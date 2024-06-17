@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
 {
+    /// <summary>
+    /// Drop Reason
+    /// </summary>
     public class DropReason
     {
         /// <summary>

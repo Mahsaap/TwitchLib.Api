@@ -42,7 +42,7 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetGenericAsync<GetChannelInformationResponse>("/channels", ApiVersion.Helix, getParams, accessToken);
@@ -66,7 +66,7 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             var response = await TwitchPatchAsync("/channels", ApiVersion.Helix, JsonConvert.SerializeObject(request), getParams, accessToken);
@@ -92,7 +92,7 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetGenericAsync<GetChannelEditorsResponse>("/channels/editors", ApiVersion.Helix, getParams, accessToken);
@@ -121,8 +121,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("broadcaster_id", broadcasterId),
+                new("first", first.ToString())
             };
 
             if (userIds != null)
@@ -161,8 +161,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("user_id", userId),
+                new("broadcaster_id", broadcasterId),
+                new("user_id", userId),
             };
 
             return TwitchPostAsync("/channels/vips", ApiVersion.Helix, null, getParams, accessToken);
@@ -190,8 +190,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("user_id", userId),
+                new("broadcaster_id", broadcasterId),
+                new("user_id", userId),
             };
 
             return TwitchDeleteAsync("/channels/vips", ApiVersion.Helix, getParams, accessToken);
@@ -228,7 +228,7 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("user_id", userId)
+                new("user_id", userId)
             };
             
             if (!string.IsNullOrWhiteSpace(broadcasterId))
@@ -242,11 +242,11 @@ namespace TwitchLib.Api.Helix
         }
 
         #endregion
-        
+
         #region GetChannelFollowers
 
         /// <summary>
-        /// Gets a list of users that follow the specified broadcaster.
+        /// Gets a list of users that follow the specified broadcaster. Requires moderator:read:followers scope.
         /// <para>You can also use this endpoint to see whether a specific user follows the broadcaster.</para>
         /// </summary>
         /// <param name="broadcasterId">The broadcaster’s ID. Returns the list of users that follow this broadcaster.</param>
@@ -269,7 +269,7 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
             
             if (!string.IsNullOrWhiteSpace(userId))
@@ -299,7 +299,7 @@ namespace TwitchLib.Api.Helix
             var getParams = new List<KeyValuePair<string, string>>
             {
 
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetGenericAsync<GetAdScheduleResponse>("/channels/ads", ApiVersion.Helix, getParams, accessToken);
@@ -321,7 +321,7 @@ namespace TwitchLib.Api.Helix
                 throw new BadParameterException("broadcasterId must be set");
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchPostGenericAsync<SnoozeNextAdResponse>("/channels/ads/schedule/snooze", ApiVersion.Helix, null, getParams, accessToken);

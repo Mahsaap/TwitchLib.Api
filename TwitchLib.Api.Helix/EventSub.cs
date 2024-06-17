@@ -16,6 +16,9 @@ using TwitchLib.Api.Helix.Models.EventSub.Conduits.UpdateConduits;
 
 namespace TwitchLib.Api.Helix
 {
+    /// <summary>
+    /// EventSub related APIs
+    /// </summary>
     public class EventSub : ApiBase
     {
         public EventSub(IApiSettings settings, IRateLimiter rateLimiter, IHttpCallHandler http) : base(settings, rateLimiter, http)
@@ -223,7 +226,7 @@ namespace TwitchLib.Api.Helix
         /// <summary>
         /// Gets a lists of all shards for a conduit.
         /// </summary>
-        /// <param name="conduit_id">Conduit ID.</param>
+        /// <param name="conduitId">Conduit ID.</param>
         /// <param name="status">Status to filter by.</param>
         /// <param name="after">The cursor used to get the next page of results. The pagination object in the response contains the cursor’s value.</param>
         /// <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>

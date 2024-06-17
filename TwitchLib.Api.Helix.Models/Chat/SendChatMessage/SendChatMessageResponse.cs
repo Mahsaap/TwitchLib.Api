@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
 {
+    /// <summary>
+    /// Send Chat Message Response
+    /// </summary>
     public class SendChatMessageResponse
     {
         /// <summary>

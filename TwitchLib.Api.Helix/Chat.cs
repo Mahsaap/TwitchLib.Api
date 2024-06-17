@@ -41,7 +41,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetGenericAsync<GetChannelChatBadgesResponse>("/chat/badges", ApiVersion.Helix, getParams, accessToken);
@@ -90,9 +90,9 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
-                new KeyValuePair<string, string>("first", first.ToString()),
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
+                new("first", first.ToString()),
             };
 
             if (!string.IsNullOrWhiteSpace(after))
@@ -114,7 +114,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetGenericAsync<GetChannelEmotesResponse>("/chat/emotes", ApiVersion.Helix, getParams, accessToken);
@@ -166,7 +166,7 @@ namespace TwitchLib.Api.Helix
             
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("user_id", userId)
+                new("user_id", userId)
             };
             
             if (!string.IsNullOrEmpty(after))
@@ -204,8 +204,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId)
             };
 
             return TwitchGetGenericAsync<GetChatSettingsResponse>("/chat/settings", ApiVersion.Helix, getParams, accessToken);
@@ -241,8 +241,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId)
             };
 
             return TwitchPatchGenericAsync<UpdateChatSettingsResponse>("/chat/settings", ApiVersion.Helix, JsonConvert.SerializeObject(settings), getParams, accessToken);
@@ -327,42 +327,6 @@ namespace TwitchLib.Api.Helix
 
             return TwitchPostAsync("/chat/shoutouts", ApiVersion.Helix, null, getParams, accessToken);
         }
-
-        /// <summary>
-        /// Sends a message to a chat
-        /// </summary>
-        /// <param name="broadcasterId">The ID of the broadcaster whose chat room the message will be sent to.</param>
-        /// <param name="senderId">	The ID of the user sending the message. This ID must match the user ID in the user access token.</param>
-        /// <param name="message">	The message to send. The message is limited to a maximum of 500 characters. Chat messages can also include emoticons. To include emoticons, use the name of the emote. The names are case sensitive. Don’t include colons around the name (e.g., :bleedPurple:). If Twitch recognizes the name, Twitch converts the name to the emote before writing the chat message to the chat room</param>
-        /// <param name="replyParentMessageId">The ID of the chat message being replied to. If omitted, the message is not a reply</param>
-        /// <param name="accessToken"></param>
-        /// <returns></returns>
-        /// <exception cref="BadParameterException"></exception>
-        public Task<SendChatMessageResponse> SendChatMessage(string broadcasterId, string senderId, string message, string replyParentMessageId = null, string accessToken = null)
-        {
-            if (string.IsNullOrEmpty(broadcasterId))
-                throw new BadParameterException("broadcasterId must be set");
-
-            if (string.IsNullOrEmpty(senderId))
-                throw new BadParameterException("senderId must be set");
-
-            if (string.IsNullOrEmpty(message))
-                throw new BadParameterException("message must be set");
-
-            var json = new JObject
-            {
-                ["broadcaster_id"] = broadcasterId,
-                ["sender_id"] = senderId,
-                ["message"] = message
-            };
-            if (replyParentMessageId != null)
-            {
-                json.Add("reply_parent_message_id", replyParentMessageId);
-            }
-
-            return TwitchPostGenericAsync<SendChatMessageResponse>("/chat/messages", ApiVersion.Helix, json.ToString(), null, accessToken);
-        }
-
         #endregion
 
         #region Update User Chat Color
@@ -453,9 +417,9 @@ namespace TwitchLib.Api.Helix
 
         /// <summary>
         /// Sends a message to the broadcaster’s chat room.
-        /// <para></para>Requires an app access token or user access token that includes the user:write:chat scope. 
-        /// <para></para>If app access token used, then additionally requires user:bot scope from chatting user, 
-        /// <para></para>and either channel:bot scope from broadcaster or moderator status.
+        /// <para>Requires an app access token or user access token that includes the user:write:chat scope.</para>
+        /// <para>If app access token used, then additionally requires user:bot scope from chatting user,</para>
+        /// <para>and either channel:bot scope from broadcaster or moderator status.</para>
         /// </summary>
         /// <param name="broadcasterId">The ID of the broadcaster whose chat room the message will be sent to.</param>
         /// <param name="senderId">The ID of the user sending the message. This ID must match the user ID in the user access token.</param>
@@ -465,35 +429,30 @@ namespace TwitchLib.Api.Helix
         /// <exception cref="BadParameterException"></exception>
         public Task<SendChatMessageResponse> SendChatMessageAsync(string broadcasterId, string senderId, string message, string replyParentMessageId = null, string accessToken = null)
         {
-            if (string.IsNullOrWhiteSpace(broadcasterId))
-                throw new BadParameterException("BroadcasterId must be set");
+            if (string.IsNullOrEmpty(broadcasterId))
+                throw new BadParameterException("broadcasterId must be set");
 
-            if (string.IsNullOrWhiteSpace(senderId))
-                throw new BadParameterException("ToUserId must be set");
+            if (string.IsNullOrEmpty(senderId))
+                throw new BadParameterException("senderId must be set");
 
-            if (message == null)
-                throw new BadParameterException("Message must be set");
+            if (string.IsNullOrEmpty(message))
+                throw new BadParameterException("message must be set");
 
-            var msgLength = 500;
-            if (message.Length > msgLength)
-                throw new BadParameterException($"message length must be less than or equal to {msgLength} characters");
-
-            var getParams = new List<KeyValuePair<string, string>>
+            var json = new JObject
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("sender_id", senderId),
-                new KeyValuePair<string, string>("message", message),
+                ["broadcaster_id"] = broadcasterId,
+                ["sender_id"] = senderId,
+                ["message"] = message
             };
-
-            if (string.IsNullOrWhiteSpace(replyParentMessageId))
+            if (replyParentMessageId != null)
             {
-                getParams.Add(new KeyValuePair<string, string>("reply_parent_message_id", replyParentMessageId));
+                json.Add("reply_parent_message_id", replyParentMessageId);
             }
 
-            return TwitchPostAsync("/chat/messages", ApiVersion.Helix, null, getParams, accessToken);
+            return TwitchPostGenericAsync<SendChatMessageResponse>("/chat/messages", ApiVersion.Helix, json.ToString(), null, accessToken);
         }
 
         #endregion
-        //Send chat Message
+
     }
 }

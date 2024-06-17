@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Core.Enums
 {
+    /// <summary>
+    /// Auth Scopes
+    /// </summary>
     public enum AuthScopes
     {
         /// <summary>
@@ -346,6 +349,9 @@ namespace TwitchLib.Api.Core.Enums
         /// </summary>
         User_Read_Subscriptions,
 
+        /// <summary>
+        /// 
+        /// </summary>
         User_Write_Chat,
 
         /// <summary>
