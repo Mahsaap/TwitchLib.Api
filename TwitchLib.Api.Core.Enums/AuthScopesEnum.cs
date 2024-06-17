@@ -337,6 +337,11 @@ namespace TwitchLib.Api.Core.Enums
         User_Read_Follows,
 
         /// <summary>
+        /// View the list of channels a user moderates.
+        /// </summary>
+        User_Read_Moderated_Channels,
+
+        /// <summary>
         /// View if an authorized user is subscribed to specific channels.
         /// </summary>
         User_Read_Subscriptions,
