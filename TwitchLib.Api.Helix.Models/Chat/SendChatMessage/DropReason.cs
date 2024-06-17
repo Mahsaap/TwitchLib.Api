@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.Channels.SendChatMessage
+namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
 {
     public class DropReason
     {
         /// <summary>
-        /// 	Code for why the message was dropped.
+        /// Code for why the message was dropped.
         /// </summary>
         [JsonProperty(PropertyName = "code", NullValueHandling = NullValueHandling.Ignore)]
         public string Code { get; set; } = string.Empty;

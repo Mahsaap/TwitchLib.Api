@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.Channels.SendChatMessage
+namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
 {
     public class SendChatMessageResponse
     {

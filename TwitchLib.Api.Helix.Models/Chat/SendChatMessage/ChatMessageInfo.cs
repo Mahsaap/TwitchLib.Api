@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.Channels.SendChatMessage
+namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
 {
     public class ChatMessageInfo
     {
@@ -15,7 +15,7 @@ namespace TwitchLib.Api.Helix.Models.Channels.SendChatMessage
         [JsonProperty(PropertyName = "is_sent", NullValueHandling = NullValueHandling.Ignore)]
         public bool IsSent { get; set; }
         /// <summary>
-        /// 	The reason the message was dropped, if any.
+        /// The reason the message was dropped, if any.
         /// </summary>
         [JsonProperty(PropertyName = "drop_reason", NullValueHandling = NullValueHandling.Ignore)]
         public DropReason[] DropReason { get; set; } = [];
