@@ -9,6 +9,9 @@ using TwitchLib.Api.Interfaces;
 
 namespace TwitchLib.Api
 {
+    /// <summary>
+    /// Twitch API
+    /// </summary>
     public class TwitchAPI : ITwitchAPI
     {
         private readonly ILogger<TwitchAPI> _logger;
@@ -28,8 +31,8 @@ namespace TwitchLib.Api
         public TwitchAPI(ILoggerFactory loggerFactory = null, IRateLimiter rateLimiter = null, IApiSettings settings = null, IHttpCallHandler http = null)
         {
             _logger = loggerFactory?.CreateLogger<TwitchAPI>();
-            rateLimiter = rateLimiter ?? BypassLimiter.CreateLimiterBypassInstance();
-            http = http ?? new TwitchHttpClient(loggerFactory?.CreateLogger<TwitchHttpClient>());
+            rateLimiter ??= BypassLimiter.CreateLimiterBypassInstance();
+            http ??= new TwitchHttpClient(loggerFactory?.CreateLogger<TwitchHttpClient>());
             Settings = settings ?? new ApiSettings();
 
             Auth = new Auth.Auth(Settings, rateLimiter, http);

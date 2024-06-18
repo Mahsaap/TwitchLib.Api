@@ -12,6 +12,9 @@ using TwitchLib.Api.Core.Models;
 
 namespace TwitchLib.Api.Core
 {
+    /// <summary>
+    /// Api Base class
+    /// </summary>
     public class ApiBase
     {
         private readonly TwitchLibJsonSerializer _jsonSerializer;
@@ -289,11 +292,11 @@ namespace TwitchLib.Api.Core
             }
         }
 
-        private readonly JsonSerializerSettings _twitchLibJsonDeserializer = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore };
+        private readonly JsonSerializerSettings _twitchLibJsonDeserializer = new() { NullValueHandling = NullValueHandling.Ignore, MissingMemberHandling = MissingMemberHandling.Ignore };
 
         private class TwitchLibJsonSerializer
         {
-            private readonly JsonSerializerSettings _settings = new JsonSerializerSettings
+            private readonly JsonSerializerSettings _settings = new()
             {
                 ContractResolver = new LowercaseContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore

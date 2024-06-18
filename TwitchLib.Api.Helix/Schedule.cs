@@ -52,8 +52,8 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("broadcaster_id", broadcasterId),
+                new("first", first.ToString())
             };
 
             if (segmentIds != null && segmentIds.Count > 0)
@@ -103,7 +103,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             if (isVacationEnabled.HasValue)
@@ -134,7 +134,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchPostGenericAsync<CreateChannelStreamSegmentResponse>("/schedule/segment", ApiVersion.Helix, JsonConvert.SerializeObject(payload), getParams, accessToken);
@@ -155,8 +155,8 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("id", segmentId)
+                new("broadcaster_id", broadcasterId),
+                new("id", segmentId)
             };
 
             return TwitchPatchGenericAsync<UpdateChannelStreamSegmentResponse>("/schedule/segment", ApiVersion.Helix, JsonConvert.SerializeObject(payload), getParams, accessToken);
@@ -175,8 +175,8 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("id", segmentId)
+                new("broadcaster_id", broadcasterId),
+                new("id", segmentId)
             };
 
             return TwitchDeleteAsync("/schedule/segment", ApiVersion.Helix, getParams, accessToken);
@@ -191,7 +191,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetAsync("/schedule/icalendar", ApiVersion.Helix, getParams);
