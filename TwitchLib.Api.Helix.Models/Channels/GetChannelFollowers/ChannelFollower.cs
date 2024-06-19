@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Channels.GetChannelFollowers
 {
+    /// <summary>
+    /// A user that follow the specified broadcaster. 
+    /// </summary>
     public class ChannelFollower
     {
         /// <summary>

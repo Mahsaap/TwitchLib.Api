@@ -26,6 +26,8 @@ namespace TwitchLib.Api.Helix
         {
         }
 
+        #region GetUserBlockList
+
         /// <summary>
         /// Gets a specified user’s block list.
         /// <para>The list is sorted by when the block occurred in descending order (i.e. most recent block first).</para>
@@ -44,8 +46,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("broadcaster_id", broadcasterId),
+                new("first", first.ToString())
             };
 
             if (!string.IsNullOrWhiteSpace(after))
@@ -53,6 +55,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetUserBlockListResponse>("/users/blocks", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region BlockUser
 
         /// <summary>
         /// Blocks the specified user on behalf of the authenticated user.
@@ -67,7 +72,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("target_user_id", targetUserId)
+                new("target_user_id", targetUserId)
             };
 
             if (sourceContext != null)
@@ -78,6 +83,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchPutAsync("/users/blocks", ApiVersion.Helix, null, getParams, accessToken);
         }
+        #endregion
+
+        #region UnblockUser
 
         /// <summary>
         /// Unblocks the specified user on behalf of the authenticated user.
@@ -90,11 +98,14 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("target_user_id", targetUserId)
+                new("target_user_id", targetUserId)
             };
 
             return TwitchDeleteAsync("/user/blocks", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region GetUsers
 
         /// <summary>
         /// Gets information about one or more specified Twitch users.
@@ -130,35 +141,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetUsersResponse>("/users", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
 
-        /// <summary>
-        /// [Obsolete] Gets information on follow relationships between two Twitch users.
-        /// <para>DO NOT USE!</para>
-        /// </summary>
-        /// <returns cref="GetUsersFollowsResponse"></returns>
-        [Obsolete]
-        public Task<GetUsersFollowsResponse> GetUsersFollowsAsync(string after = null, string before = null, int first = 20, string fromId = null, string toId = null, string accessToken = null)
-        {
-            throw new BadParameterException("GetUsersFollows is Obsolete.");
-            //var getParams = new List<KeyValuePair<string, string>>
-            //{
-            //    new KeyValuePair<string, string>("first", first.ToString())
-            //};
-
-            //if (!string.IsNullOrWhiteSpace(after))
-            //    getParams.Add(new KeyValuePair<string, string>("after", after));
-
-            //if (!string.IsNullOrWhiteSpace(before))
-            //    getParams.Add(new KeyValuePair<string, string>("before", before));
-
-            //if (!string.IsNullOrWhiteSpace(fromId))
-            //    getParams.Add(new KeyValuePair<string, string>("from_id", fromId));
-
-            //if (!string.IsNullOrWhiteSpace(toId))
-            //    getParams.Add(new KeyValuePair<string, string>("to_id", toId));
-
-            //return TwitchGetGenericAsync<GetUsersFollowsResponse>("/users/follows", ApiVersion.Helix, getParams, accessToken);
-        }
+        #region UpdateUser
 
         /// <summary>
         /// Updates the description of a user specified by the bearer token.
@@ -173,11 +158,14 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("description", description)
+                new("description", description)
             };
 
             return TwitchPutAsync("/users", ApiVersion.Helix, null, getParams, accessToken);
         }
+        #endregion
+
+        #region GetUserExtensions
 
         /// <summary>
         /// Gets a list of all extensions (both active and inactive) for a specified user, identified by a Bearer token.
@@ -189,6 +177,9 @@ namespace TwitchLib.Api.Helix
         {
             return TwitchGetGenericAsync<GetUserExtensionsResponse>("/users/extensions/list", ApiVersion.Helix, accessToken: accessToken);
         }
+        #endregion
+
+        #region GetUserActiveExtensions
 
         /// <summary>
         /// Gets information about active extensions installed by a specified user, identified by a user ID or Bearer token.
@@ -206,6 +197,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetUserActiveExtensionsResponse>("/users/extensions", ApiVersion.Helix, getParams, accessToken: accessToken);
         }
+        #endregion
+
+        #region UpdateUserExtensions
 
         /// <summary>
         /// Updates the activation state, extension ID, and/or version number of installed extensions for a specified user, identified by a Bearer token.
@@ -255,5 +249,6 @@ namespace TwitchLib.Api.Helix
 
             return TwitchPutGenericAsync<GetUserActiveExtensionsResponse>("/users/extensions", ApiVersion.Helix, payload, accessToken: accessToken);
         }
+        #endregion
     }
 }

@@ -18,6 +18,8 @@ namespace TwitchLib.Api.Helix
         {
         }
 
+        #region GetAllStreamTags
+
         /// <summary>
         /// Gets the list of all stream tags that Twitch defines. You can also filter the list by one or more tag IDs.
         /// </summary>
@@ -50,5 +52,6 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetAllStreamTagsResponse>("/tags/streams", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
     }
 }

@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Chat.GetChatters
 {
+    /// <summary>
+    /// A user that is connected to the broadcaster’s chat session.
+    /// </summary>
     public class Chatter
     {
         /// <summary>

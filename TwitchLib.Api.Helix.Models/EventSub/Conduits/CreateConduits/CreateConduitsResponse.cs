@@ -1,12 +1,16 @@
 using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.EventSub.Conduits.CreateConduits;
-
-public class CreateConduitsResponse
+namespace TwitchLib.Api.Helix.Models.EventSub.Conduits.CreateConduits
 {
     /// <summary>
-    /// <para>List of information about the client’s conduits.</para>
+    /// Create a new conduit response object.
     /// </summary>
-    [JsonProperty(PropertyName = "data")]
-    public Conduit[] Data { get; protected set; }
+    public class CreateConduitsResponse
+    {
+        /// <summary>
+        /// <para>List of information about the client’s conduits.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "data")]
+        public Conduit[] Data { get; protected set; }
+    }
 }

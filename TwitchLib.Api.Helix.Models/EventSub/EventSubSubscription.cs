@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace TwitchLib.Api.Helix.Models.EventSub
 {
+    /// <summary>
+    /// A single subscription.
+    /// </summary>
     public class EventSubSubscription
     {
         /// <summary>

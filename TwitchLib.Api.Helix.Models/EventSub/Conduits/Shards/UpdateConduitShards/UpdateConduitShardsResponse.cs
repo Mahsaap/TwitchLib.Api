@@ -1,17 +1,22 @@
 using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.EventSub.Conduits.Shards.UpdateConduitShards;
-
-public class UpdateConduitShardsResponse
+namespace TwitchLib.Api.Helix.Models.EventSub.Conduits.Shards.UpdateConduitShards
 {
     /// <summary>
-    /// <para>List of successful shard updates.</para>
+    /// Update conduit shards Response object.
     /// </summary>
-    [JsonProperty(PropertyName = "data")]
-    public Shard[] Shards { get; protected set; }
-    /// <summary>
-    /// <para>List of unsuccessful updates.</para>
-    /// </summary>
-    [JsonProperty(PropertyName = "errors")]
-    public Error[] Errors { get; protected set; }
+    public class UpdateConduitShardsResponse
+    {
+        /// <summary>
+        /// <para>List of successful shard updates.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "data")]
+        public Shard[] Shards { get; protected set; }
+
+        /// <summary>
+        /// <para>List of unsuccessful updates.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "errors")]
+        public Error[] Errors { get; protected set; }
+    }
 }

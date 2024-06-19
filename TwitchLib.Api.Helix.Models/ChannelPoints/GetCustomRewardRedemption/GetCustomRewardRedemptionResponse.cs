@@ -15,7 +15,7 @@ namespace TwitchLib.Api.Helix.Models.ChannelPoints.GetCustomRewardRedemption
       public RewardRedemption[] Data { get; protected set; }
 
       /// <summary>
-      /// 
+      /// Contains the information used to page through the list of results
       /// </summary>
       [JsonProperty(PropertyName = "pagination")]
       public Pagination Pagination { get; protected set; }

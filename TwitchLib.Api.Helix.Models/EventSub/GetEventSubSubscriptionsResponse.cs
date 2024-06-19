@@ -3,6 +3,9 @@ using TwitchLib.Api.Helix.Models.Common;
 
 namespace TwitchLib.Api.Helix.Models.EventSub
 {
+    /// <summary>
+    /// Get eventsub subscriptions response object.
+    /// </summary>
     public class GetEventSubSubscriptionsResponse
     {
         /// <summary>

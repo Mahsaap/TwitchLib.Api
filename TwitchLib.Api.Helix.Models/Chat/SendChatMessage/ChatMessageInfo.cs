@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.Channels.SendChatMessage
+namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
 {
     /// <summary>
     /// Chat Message Information
@@ -12,11 +12,13 @@ namespace TwitchLib.Api.Helix.Models.Channels.SendChatMessage
         /// </summary>
         [JsonProperty(PropertyName = "message_id", NullValueHandling = NullValueHandling.Ignore)]
         public string MessageId { get; set; } = string.Empty;
+
         /// <summary>
         /// If the message passed all checks and was sent.
         /// </summary>
         [JsonProperty(PropertyName = "is_sent", NullValueHandling = NullValueHandling.Ignore)]
         public bool IsSent { get; set; }
+
         /// <summary>
         /// The reason the message was dropped, if any.
         /// </summary>

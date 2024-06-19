@@ -21,6 +21,8 @@ namespace TwitchLib.Api.Helix
         public Schedule(IApiSettings settings, IRateLimiter rateLimiter, IHttpCallHandler http) : base(settings, rateLimiter, http)
         { }
 
+        #region GetChannelStreamSchedule
+
         /// <summary>
         /// Gets all scheduled broadcasts or specific scheduled broadcasts from a channel’s stream schedule.
         /// <para>Scheduled broadcasts are defined as “stream segments” in the API.</para>
@@ -72,6 +74,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetChannelStreamScheduleResponse>("/schedule", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region UpdateChannelStreamScheduleAsync
 
         /// <summary>
         /// Update the settings for a channel’s stream schedule.
@@ -120,6 +125,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchPatchAsync("/schedule/settings", ApiVersion.Helix, null, getParams, accessToken);
         }
+        #endregion
+
+        #region CreateChannelStreamScheduleSegment
 
         /// <summary>
         /// Create a single scheduled broadcast or a recurring scheduled broadcast for a channel’s stream schedule.
@@ -139,6 +147,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchPostGenericAsync<CreateChannelStreamSegmentResponse>("/schedule/segment", ApiVersion.Helix, JsonConvert.SerializeObject(payload), getParams, accessToken);
         }
+        #endregion
+
+        #region UpdateChannelStreamScheduleSegment
 
         /// <summary>
         /// Update a single scheduled broadcast or a recurring scheduled broadcast for a channel’s stream schedule.
@@ -161,6 +172,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchPatchGenericAsync<UpdateChannelStreamSegmentResponse>("/schedule/segment", ApiVersion.Helix, JsonConvert.SerializeObject(payload), getParams, accessToken);
         }
+        #endregion
+
+        #region DeleteChannelStreamScheduleSegment
 
         /// <summary>
         /// Delete a single scheduled broadcast or a recurring scheduled broadcast for a channel’s stream schedule.
@@ -181,6 +195,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchDeleteAsync("/schedule/segment", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region GetChanneliCalendar
 
         /// <summary>
         /// Gets all scheduled broadcasts from a channel’s stream schedule as an iCalendar.
@@ -196,5 +213,6 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetAsync("/schedule/icalendar", ApiVersion.Helix, getParams);
         }
+        #endregion
     }
 }

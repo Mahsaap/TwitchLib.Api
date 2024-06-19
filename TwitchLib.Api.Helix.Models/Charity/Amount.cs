@@ -3,7 +3,7 @@
 namespace TwitchLib.Api.Helix.Models.Charity
 {
    /// <summary>
-   /// <para></para>
+   /// An object that contains the amount of money that the user donated.
    /// </summary>
    public class Amount
    {

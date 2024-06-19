@@ -416,8 +416,8 @@ public class GuestStar : ApiBase
     }
 
     #endregion
-    
-        #region DeleteGuestStarSlot
+
+    #region UpdateGuestStarSlotSettings
 
     /// <summary>
     /// <para><see href="https://dev.twitch.tv/docs/api/reference/#update-guest-star-slot-settings">

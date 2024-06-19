@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Chat.GetUserChatColor
 {
+    /// <summary>
+    /// The colors used for the user(s)’s name in chat, response object.
+    /// </summary>
     public class GetUserChatColorResponse
     {
         /// <summary>

@@ -31,6 +31,7 @@ namespace TwitchLib.Api.Helix
         { }
 
         #region Badges
+
         /// <summary>
         /// Gets a list of custom chat badges that can be used in chat for the specified channel. This includes subscriber badges and Bit badges.
         /// </summary>
@@ -59,6 +60,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region Chatters
+
         /// <summary>
         /// Gets the list of users that are connected to the specified broadcaster’s chat session.
         /// <para>Note that there is a delay between when users join and leave a chat and when the list is updated accordingly.</para>
@@ -104,6 +106,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region Emotes
+
         /// <summary>
         /// Gets all emotes that the specified Twitch channel created. 
         /// </summary>
@@ -181,6 +184,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region GetChatSettings
+
         /// <summary>
         /// Gets the broadcaster’s chat settings.
         /// <para>To include the non_moderator_chat_delay or non_moderator_chat_delay_duration settings in the response, you must specify a User access token with scope set to moderator:read:chat_settings.</para>
@@ -214,6 +218,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region UpdateChatSettings
+
         /// <summary>
         /// Updates the broadcaster’s chat settings.
         /// <para>Requires a User access token with scope set to moderator:manage:chat_settings.</para>
@@ -276,13 +281,12 @@ namespace TwitchLib.Api.Helix
             if (message.Length > 500)
                 throw new BadParameterException("message length must be less than or equal to 500 characters");
 
-            if (color == null)
-                color = AnnouncementColors.Primary;
+            color ??= AnnouncementColors.Primary;
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
             };
 
             // This should be updated to have a Request Class in the future.
@@ -320,9 +324,9 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("from_broadcaster_id", fromBroadcasterId),
-                new KeyValuePair<string, string>("to_broadcaster_id", toBroadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
+                new("from_broadcaster_id", fromBroadcasterId),
+                new("to_broadcaster_id", toBroadcasterId),
+                new("moderator_id", moderatorId),
             };
 
             return TwitchPostAsync("/chat/shoutouts", ApiVersion.Helix, null, getParams, accessToken);
@@ -330,6 +334,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region Update User Chat Color
+
         /// <summary>
         /// Updates the color used for the user’s name in chat from a selection of available colors.
         /// </summary>
@@ -346,8 +351,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("user_id", userId),
-                new KeyValuePair<string, string>("color", color.Value),
+                new("user_id", userId),
+                new("color", color.Value),
             };
 
             return TwitchPutAsync("/chat/color", ApiVersion.Helix, null, getParams, accessToken);
@@ -375,8 +380,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("user_id", userId),
-                new KeyValuePair<string, string>("color", colorEncoded),
+                new("user_id", userId),
+                new("color", colorEncoded),
             };
 
             return TwitchPutAsync("/chat/color", ApiVersion.Helix, null, getParams, accessToken);
@@ -385,6 +390,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region Get User Chat Color
+
         /// <summary>
         /// Gets the color used for the user(s)’s name in chat.
         /// </summary>

@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Chat.Emotes
 {
+    /// <summary>
+    /// Global emote.
+    /// </summary>
     public class GlobalEmote : Emote
     {
         /// <summary>

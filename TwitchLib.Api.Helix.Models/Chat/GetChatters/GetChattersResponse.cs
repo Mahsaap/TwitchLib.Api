@@ -3,6 +3,9 @@ using TwitchLib.Api.Helix.Models.Common;
 
 namespace TwitchLib.Api.Helix.Models.Chat.GetChatters
 {
+    /// <summary>
+    /// The list of users that are connected to the broadcaster’s chat session response item.
+    /// </summary>
     public class GetChattersResponse
     {
         /// <summary>

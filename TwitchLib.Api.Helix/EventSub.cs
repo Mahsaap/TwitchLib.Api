@@ -25,6 +25,8 @@ namespace TwitchLib.Api.Helix
         {
         }
 
+        #region CreateEventSubSubscription
+
         /// <summary>
         /// Creates an EventSub subscription.
         /// </summary>
@@ -109,6 +111,9 @@ namespace TwitchLib.Api.Helix
                     throw new ArgumentOutOfRangeException(nameof(method), method, null);
             }
         }
+        #endregion
+
+        # region GetEventSubSubscriptions
 
         /// <summary>
         /// Gets a list of your EventSub subscriptions. The list is paginated and ordered by the oldest subscription first.
@@ -138,6 +143,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetEventSubSubscriptionsResponse>("/eventsub/subscriptions", ApiVersion.Helix, getParams, accessToken, clientId);
         }
+        #endregion
+
+        #region DeleteEventSubSubscription
 
         /// <summary>
         /// Deletes an EventSub subscription.
@@ -150,7 +158,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("id", id)
+                new("id", id)
             };
 
             var response = await TwitchDeleteAsync("/eventsub/subscriptions", ApiVersion.Helix, getParams, accessToken, clientId);
@@ -158,17 +166,24 @@ namespace TwitchLib.Api.Helix
             return response.Key == (int) HttpStatusCode.NoContent;
         }
 
+        #endregion
+
+        #region GetConduits
+
         /// <summary>
         /// Gets the conduits for a client ID.
         /// </summary>
         /// <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
         /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns cref="GetConduitsResponse">Returns a list of your conduits.</returns>
-        public async Task<GetConduitsResponse> GetConduits(string clientId = null, string accessToken = null)
+        public Task<GetConduitsResponse> GetConduitsAsync(string clientId = null, string accessToken = null)
         {
-            return await TwitchGetGenericAsync<GetConduitsResponse>("/eventsub/conduits", ApiVersion.Helix,
+            return TwitchGetGenericAsync<GetConduitsResponse>("/eventsub/conduits", ApiVersion.Helix,
                 null, accessToken, clientId);
         }
+        #endregion
+
+        #region CreateConduits
 
         /// <summary>
         /// Creates a new conduit.
@@ -177,15 +192,18 @@ namespace TwitchLib.Api.Helix
         /// <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
         /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns cref="CreateConduitsResponse">Returns a list of your conduits.</returns>
-        public async Task<CreateConduitsResponse> CreateConduits(CreateConduitsRequest request, string clientId = null,
+        public Task<CreateConduitsResponse> CreateConduitsAsync(CreateConduitsRequest request, string clientId = null,
             string accessToken = null)
         {
             if (request.ShardCount is <= 0 or > 20_000)
                 throw new BadParameterException("request.ShardCount must be greater than 0 and less or equal than 20000");
             
-            return await TwitchPostGenericAsync<CreateConduitsResponse>("/eventsub/conduits", ApiVersion.Helix,
+            return TwitchPostGenericAsync<CreateConduitsResponse>("/eventsub/conduits", ApiVersion.Helix,
                 JsonConvert.SerializeObject(request), null, accessToken, clientId);
         }
+        #endregion
+
+        #region UpdateConduits
 
         /// <summary>
         /// Updates a conduit’s shard count. To delete shards, update the count to a lower number, and the shards above the count will be deleted. For example, if the existing shard count is 100, by resetting shard count to 50, shards 50-99 are disabled.
@@ -194,15 +212,18 @@ namespace TwitchLib.Api.Helix
         /// <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
         /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns cref="UpdateConduitsResponse">Returns a list of your conduits.</returns>
-        public async Task<UpdateConduitsResponse> UpdateConduits(UpdateConduitsRequest request, string clientId = null,
+        public Task<UpdateConduitsResponse> UpdateConduitsAsync(UpdateConduitsRequest request, string clientId = null,
             string accessToken = null)
         {
             if (request.ShardCount is <= 0 or > 20_000)
                 throw new BadParameterException("request.ShardCount must be greater than 0 and less or equal than 20000");
             
-            return await TwitchPatchGenericAsync<UpdateConduitsResponse>("/eventsub/conduits", ApiVersion.Helix,
+            return TwitchPatchGenericAsync<UpdateConduitsResponse>("/eventsub/conduits", ApiVersion.Helix,
                 JsonConvert.SerializeObject(request), null, accessToken, clientId);
         }
+        #endregion
+
+        # region DeleteConduit
 
         /// <summary>
         /// Deletes a conduit.
@@ -211,17 +232,20 @@ namespace TwitchLib.Api.Helix
         /// <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
         /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns>True: If successfully deleted; False: If delete failed</returns>
-        public async Task<bool> DeleteConduit(string id, string clientId = null, string accessToken = null)
+        public async Task<bool> DeleteConduitAsync(string id, string clientId = null, string accessToken = null)
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("id", id)
+                new("id", id)
             };
 
             var response = await TwitchDeleteAsync("/eventsub/conduits", ApiVersion.Helix, getParams, accessToken, clientId);
 
             return response.Key == (int) HttpStatusCode.NoContent;
         }
+        #endregion
+
+        #region GetConduitShards
 
         /// <summary>
         /// Gets a lists of all shards for a conduit.
@@ -232,21 +256,24 @@ namespace TwitchLib.Api.Helix
         /// <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
         /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns cref="GetConduitShardsResponse">Returns a list shards owned by the specified conduit.</returns>
-        public async Task<GetConduitShardsResponse> GetConduitShards(string conduitId, string status = null, string after = null, string clientId = null,
+        public Task<GetConduitShardsResponse> GetConduitShardsAsync(string conduitId, string status = null, string after = null, string clientId = null,
             string accessToken = null)
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("conduit_id", conduitId)
+                new("conduit_id", conduitId)
             };
             if(!string.IsNullOrWhiteSpace(status))
                 getParams.Add(new KeyValuePair<string, string>("status", status));
             if(!string.IsNullOrWhiteSpace(after))
                 getParams.Add(new KeyValuePair<string, string>("after", after));
 
-            return await TwitchGetGenericAsync<GetConduitShardsResponse>("/eventsub/conduits/shards", ApiVersion.Helix,
+            return TwitchGetGenericAsync<GetConduitShardsResponse>("/eventsub/conduits/shards", ApiVersion.Helix,
                 getParams, accessToken, clientId);
         }
+        #endregion
+
+        #region UpdateConduitShards
 
         /// <summary>
         /// Updates shard(s) for a conduit.
@@ -255,13 +282,13 @@ namespace TwitchLib.Api.Helix
         /// <param name="clientId">optional Client ID to override the use of the stored one in the TwitchAPI instance</param>
         /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns cref="UpdateConduitShardsResponse">Returns a list of successfully and errored conduit shard updates</returns>
-        public async Task<UpdateConduitShardsResponse> UpdateConduitShards(UpdateConduitShardsRequest request, string clientId = null,
+        public Task<UpdateConduitShardsResponse> UpdateConduitShardsAsync(UpdateConduitShardsRequest request, string clientId = null,
             string accessToken = null)
         {
-            List<string> validMethods = new List<string>()
-            {
+            List<string> validMethods =
+            [
                 "webhook", "websocket"
-            };
+            ];
             const int secretMinLength = 10;
             const int secretMaxLength = 100;
             
@@ -274,8 +301,9 @@ namespace TwitchLib.Api.Helix
                         $"request.Shards.Transport.Secret must be greater than or equal to {secretMinLength} and less than or equal to {secretMaxLength}");
             }
             
-            return await TwitchPatchGenericAsync<UpdateConduitShardsResponse>("/eventsub/conduits/shards",
+            return TwitchPatchGenericAsync<UpdateConduitShardsResponse>("/eventsub/conduits/shards",
                 ApiVersion.Helix, JsonConvert.SerializeObject(request), null, accessToken, clientId);
         }
+        #endregion
     }
 }

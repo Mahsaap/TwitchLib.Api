@@ -24,6 +24,8 @@ namespace TwitchLib.Api.Helix
         {
         }
 
+        #region GetStreams
+
         /// <summary>
         /// Gets information about active streams.
         /// <para>Streams are returned sorted by number of current viewers, in descending order.</para>
@@ -45,7 +47,7 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("first", first.ToString()),
+                new("first", first.ToString()),
             };
 
             if (!string.IsNullOrWhiteSpace(after))
@@ -78,6 +80,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetStreamsResponse>("/streams", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region GetStreamTags
 
         /// <summary>
         /// Gets the list of stream tags that are set on the specified channel.
@@ -95,11 +100,14 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetGenericAsync<GetStreamTagsResponse>("/streams/tags", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region GetStreamKey
 
         /// <summary>
         /// Gets the channel stream key for a user.
@@ -112,11 +120,14 @@ namespace TwitchLib.Api.Helix
         {
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             return TwitchGetGenericAsync<GetStreamKeyResponse>("/streams/key", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region CreateStreamMarker
 
         /// <summary>
         /// Creates a marker in the stream of a user specified by user ID
@@ -131,6 +142,9 @@ namespace TwitchLib.Api.Helix
         {
             return TwitchPostGenericAsync<CreateStreamMarkerResponse>("/streams/markers", ApiVersion.Helix, JsonConvert.SerializeObject(request), null, accessToken);
         }
+        #endregion
+
+        #region GetStreamMarkers
 
         /// <summary>
         /// Gets a list of markers for either a specified user’s most recent stream or a specified VOD/video (stream), ordered by recency.
@@ -178,6 +192,9 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetStreamMarkersResponse>("/streams/markers", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
+
+        #region GetFollowedStreams
 
         /// <summary>
         /// Gets information about active streams belonging to channels that the authenticated user follows.
@@ -199,8 +216,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("user_id", userId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("user_id", userId),
+                new("first", first.ToString())
             };
 
             if (!string.IsNullOrWhiteSpace(after))
@@ -208,6 +225,7 @@ namespace TwitchLib.Api.Helix
 
             return TwitchGetGenericAsync<GetFollowedStreamsResponse>("/streams/followed", ApiVersion.Helix, getParams, accessToken);
         }
+        #endregion
     }
 
 }

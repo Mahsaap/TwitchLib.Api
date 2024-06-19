@@ -28,6 +28,7 @@ namespace TwitchLib.Api.Helix
         }
 
         #region GetChannelInformation
+
         /// <summary>
         /// Gets channel information for given user.
         /// </summary>
@@ -50,6 +51,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region ModifyChannelInformation
+
         /// <summary>
         /// Modifies channel information for given user.
         /// <para>Required scope: channel:manage:broadcast</para>
@@ -59,7 +61,7 @@ namespace TwitchLib.Api.Helix
         /// <param name="accessToken">optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns></returns>
         /// <exception cref="BadParameterException"></exception>
-        public async Task<bool> ModifyChannelInformationAsync(string broadcasterId, ModifyChannelInformationRequest request, string accessToken = null)
+        public Task<bool> ModifyChannelInformationAsync(string broadcasterId, ModifyChannelInformationRequest request, string accessToken = null)
         {
             if (string.IsNullOrEmpty(broadcasterId))
                 throw new BadParameterException("broadcasterId must be set");
@@ -77,6 +79,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region GetChannelEditors
+
         /// <summary>
         /// Gets a list of users who have editor permissions for a specific channel.
         /// <para>Required scope: channel:read:editors</para>
@@ -170,7 +173,7 @@ namespace TwitchLib.Api.Helix
 
         #endregion
 
-        #region DeleteChannelVIP
+        #region RemoveChannelVIP
 
         /// <summary>
         /// Removes a VIP from the broadcaster’s chat room.
@@ -315,7 +318,7 @@ namespace TwitchLib.Api.Helix
         /// <param name="broadcasterId">The broadcaster's ID. Ad snoozing is relevant to this broadcaster, and so should the auth.</param>
         /// <param name="accessToken"> Optional access token to override the use of the stored one in the TwitchAPI instance</param>
         /// <returns cref="SnoozeNextAdResponse"></returns>
-        public Task<SnoozeNextAdResponse> SnoozeNextAd(string broadcasterId, string accessToken = null)
+        public Task<SnoozeNextAdResponse> SnoozeNextAdAsync(string broadcasterId, string accessToken = null)
         {
             if (string.IsNullOrWhiteSpace(broadcasterId))
                 throw new BadParameterException("broadcasterId must be set");

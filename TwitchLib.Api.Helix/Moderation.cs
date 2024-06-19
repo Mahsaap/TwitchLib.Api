@@ -2,14 +2,12 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TwitchLib.Api.Core;
 using TwitchLib.Api.Core.Enums;
 using TwitchLib.Api.Core.Exceptions;
 using TwitchLib.Api.Core.Interfaces;
-using TwitchLib.Api.Helix.Models.Entitlements;
 using TwitchLib.Api.Helix.Models.Moderation.AutomodSettings;
 using TwitchLib.Api.Helix.Models.Moderation.BanUser;
 using TwitchLib.Api.Helix.Models.Moderation.BlockedTerms;
@@ -23,7 +21,6 @@ using TwitchLib.Api.Helix.Models.Moderation.GetModerators;
 using TwitchLib.Api.Helix.Models.Moderation.ShieldModeStatus;
 using TwitchLib.Api.Helix.Models.Moderation.ShieldModeStatus.GetShieldModeStatus;
 using TwitchLib.Api.Helix.Models.Moderation.ShieldModeStatus.UpdateShieldModeStatus;
-using TwitchLib.Api.Helix.Models.Moderation.UnbanRequests;
 using TwitchLib.Api.Helix.Models.Moderation.UnbanRequests.GetUnbanRequests;
 using TwitchLib.Api.Helix.Models.Moderation.UnbanRequests.ResolveUnbanRequests;
 
@@ -37,7 +34,9 @@ namespace TwitchLib.Api.Helix
         public Moderation(IApiSettings settings, IRateLimiter rateLimiter, IHttpCallHandler http) : base(settings, rateLimiter, http)
         {
         }
+
         #region ManageHeldAutoModMessage
+
         /// <summary>
         /// Allow or deny a message that was held for review by AutoMod.
         /// <para>Required Scope: moderator:manage:automod</para>
@@ -68,6 +67,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region CheckAutoModeStatus
+
         /// <summary>
         /// Determines whether a string message meets the channel’s AutoMod requirements.
         /// <para>Rate Limits: Rates are limited per channel based on the account type rather than per access token.</para>
@@ -91,7 +91,7 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
+                new("broadcaster_id", broadcasterId)
             };
 
             var request = new MessageRequest
@@ -104,34 +104,8 @@ namespace TwitchLib.Api.Helix
 
         #endregion
 
-        #region GetBannedEvents
-        public Task<GetBannedEventsResponse> GetBannedEventsAsync(string broadcasterId, List<string> userIds = null, string after = null, int first = 20, string accessToken = null)
-        {
-            if (string.IsNullOrWhiteSpace(broadcasterId))
-                throw new BadParameterException("broadcasterId cannot be null/empty/whitespace");
-
-            if (first < 1 || first > 100)
-                throw new BadParameterException("first cannot be less than 1 or greater than 100");
-
-            var getParams = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
-            };
-
-            if (userIds != null && userIds.Count > 0) 
-                getParams.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("user_id", userId)));
-
-            if (string.IsNullOrWhiteSpace(after))
-                getParams.Add(new KeyValuePair<string, string>("after", after));
-
-            getParams.Add(new KeyValuePair<string, string>("first", first.ToString()));
-
-            return TwitchGetGenericAsync<GetBannedEventsResponse>("/moderation/banned/events", ApiVersion.Helix, getParams, accessToken);
-        }
-
-        #endregion
-
         #region GetBannedUsers
+
         /// <summary>
         /// Returns all banned and timed-out users for a channel.
         /// <para>Required scope: moderation:read</para>
@@ -153,8 +127,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("broadcaster_id", broadcasterId),
+                new("first", first.ToString())
             };
 
             if (userIds != null && userIds.Count > 0) 
@@ -172,6 +146,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region GetModerators
+
         /// <summary>
         /// Returns all moderators in a channel.
         /// <para>Note: This endpoint does not return the broadcaster in the response, as broadcasters are channel owners and have all permissions of moderators implicitly.</para>
@@ -197,8 +172,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("broadcaster_id", broadcasterId),
+                new("first", first.ToString())
             };
 
             if (userIds != null && userIds.Count > 0) 
@@ -212,27 +187,8 @@ namespace TwitchLib.Api.Helix
 
         #endregion
 
-        #region GetModeratorEvents
+        #region BanUser
 
-        public Task<GetModeratorEventsResponse> GetModeratorEventsAsync(string broadcasterId, List<string> userIds = null, string accessToken = null)
-        {
-            if (string.IsNullOrWhiteSpace(broadcasterId))
-                throw new BadParameterException("broadcasterId cannot be null/empty/whitespace");
-
-            var getParams = new List<KeyValuePair<string, string>>
-            {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId)
-            };
-
-            if (userIds != null && userIds.Count > 0) 
-                getParams.AddRange(userIds.Select(userId => new KeyValuePair<string, string>("user_id", userId)));
-
-            return TwitchGetGenericAsync<GetModeratorEventsResponse>("/moderation/moderators/events", ApiVersion.Helix, getParams, accessToken);
-        }
-
-        #endregion
-
-        #region BanUsers
         /// <summary>
         /// Ban or Timeout an user from chat. If a duration is specified it is treated as a timeout, if you omit a duration is a permanent ban.
         /// <para>Requires a User access token with scope set to moderator:manage:banned_users.</para>
@@ -263,8 +219,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId)
             };
 
             var body = new
@@ -277,7 +233,8 @@ namespace TwitchLib.Api.Helix
 
         #endregion
 
-        #region UnbanUsers
+        #region UnbanUser
+
         /// <summary>
         /// Removes the ban or timeout that was placed on the specified user
         /// <para>Requires a User access token with scope set to moderator:manage:banned_users.</para>
@@ -304,9 +261,9 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
-                new KeyValuePair<string, string>("user_id", userId)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
+                new("user_id", userId)
             };
 
             return TwitchDeleteAsync("/moderation/bans", ApiVersion.Helix, getParams, accessToken);
@@ -338,8 +295,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
             };
 
             return TwitchGetGenericAsync<GetAutomodSettingsResponse>("/moderation/automod/settings", ApiVersion.Helix, getParams, accessToken);
@@ -348,6 +305,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region UpdateAutomodSettings
+
         /// <summary>
         /// Updates the broadcaster’s AutoMod settings, which are used to automatically block inappropriate or harassing messages from appearing in the broadcaster’s chat room.
         /// <para>Requires a User access token with scope set to moderator:manage:automod_settings.</para>
@@ -374,8 +332,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
             };
 
             return TwitchPutGenericAsync<UpdateAutomodSettingsResponse>("/moderation/automod/settings", ApiVersion.Helix, JsonConvert.SerializeObject(settings), getParams, accessToken);
@@ -384,6 +342,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region GetBlockedTerms
+
         /// <summary>
         /// Gets the broadcaster’s list of non-private, blocked words or phrases.
         /// <para>These are the terms that the broadcaster or moderator added manually, or that were denied by AutoMod.</para>
@@ -416,9 +375,9 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
+                new("first", first.ToString())
             };
 
             if (!string.IsNullOrWhiteSpace(after))
@@ -430,6 +389,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region AddBlockedTerm
+
         /// <summary>
         /// Adds a word or phrase to the broadcaster’s list of blocked terms.
         /// <para>Requires a User access token with scope set to moderator:manage:blocked_terms.</para>
@@ -462,8 +422,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
             };
 
             var body = new JObject
@@ -477,6 +437,7 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #region DeleteBlockedTerm
+
         /// <summary>
         /// Removes the word or phrase that the broadcaster is blocking users from using in their chat room.
         /// <para>Requires a User access token with scope set to moderator:manage:blocked_terms.</para>
@@ -503,9 +464,9 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
-                new KeyValuePair<string, string>("id", termId)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
+                new("id", termId)
             };
 
             return TwitchDeleteAsync("/moderation/blocked_terms", ApiVersion.Helix, getParams, accessToken);
@@ -541,8 +502,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
             };
 
             if (!string.IsNullOrWhiteSpace(messageId))
@@ -576,8 +537,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>()
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("user_id", userId),
+                new("broadcaster_id", broadcasterId),
+                new("user_id", userId),
             };
 
             return TwitchPostAsync("/moderation/moderators", ApiVersion.Helix, null, getParams, accessToken);
@@ -606,8 +567,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>()
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("user_id", userId),
+                new("broadcaster_id", broadcasterId),
+                new("user_id", userId),
             };
 
             return TwitchDeleteAsync("/moderation/moderators", ApiVersion.Helix, getParams, accessToken);
@@ -638,8 +599,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId)
             };
 
             return TwitchGetGenericAsync<GetShieldModeStatusResponse>("/moderation/shield_mode", ApiVersion.Helix, getParams, accessToken);
@@ -668,8 +629,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId)
             };
 
             return TwitchPutGenericAsync<ShieldModeStatus>("/moderation/shield_mode", ApiVersion.Helix, JsonConvert.SerializeObject(request), getParams, accessToken);
@@ -678,8 +639,6 @@ namespace TwitchLib.Api.Helix
         #endregion
 
         #endregion
-
-        #region UnbanRequests
 
         #region GetUnbanRequests
 
@@ -703,15 +662,15 @@ namespace TwitchLib.Api.Helix
             if (string.IsNullOrEmpty(moderatorId))
                 throw new BadParameterException("moderatorId must be set");
 
-            string[] validStatus = { "pending", "approved", "denied", "acknowledged", "canceled" };
+            string[] validStatus = ["pending", "approved", "denied", "acknowledged", "canceled"];
             if (string.IsNullOrEmpty(status) || !validStatus.Contains(status))
                 throw new BadParameterException("status must be set and a valid value");
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
-                new KeyValuePair<string, string>("status", status),
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
+                new("status", status),
             };
 
             if (!string.IsNullOrEmpty(userId))
@@ -752,16 +711,16 @@ namespace TwitchLib.Api.Helix
             if (string.IsNullOrEmpty(unbanRequestId))
                 throw new BadParameterException("unbanRequestId must be set");
 
-            string[] validStatus = { "approved", "denied" };
+            string[] validStatus = ["approved", "denied"];
             if (string.IsNullOrEmpty(status) || !validStatus.Contains(status))
                 throw new BadParameterException("status must be set and a valid value");
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("broadcaster_id", broadcasterId),
-                new KeyValuePair<string, string>("moderator_id", moderatorId),
-                new KeyValuePair<string, string>("unban_request_id", unbanRequestId),
-                new KeyValuePair<string, string>("status", status)
+                new("broadcaster_id", broadcasterId),
+                new("moderator_id", moderatorId),
+                new("unban_request_id", unbanRequestId),
+                new("status", status)
             };
             if (!string.IsNullOrEmpty(resolutionText))
             {
@@ -776,9 +735,8 @@ namespace TwitchLib.Api.Helix
 
         #endregion
 
-        #endregion
-
         #region GetModeratedChannels
+
         /// <summary>
         /// Gets a list of channels that the specified user has moderator privileges in.
         /// <para>Requires a user access token that includes the user:read:moderated_channels scope.</para>
@@ -799,8 +757,8 @@ namespace TwitchLib.Api.Helix
 
             var getParams = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("user_id", userId),
-                new KeyValuePair<string, string>("first", first.ToString())
+                new("user_id", userId),
+                new("first", first.ToString())
             };
 
             if (!string.IsNullOrWhiteSpace(after))
