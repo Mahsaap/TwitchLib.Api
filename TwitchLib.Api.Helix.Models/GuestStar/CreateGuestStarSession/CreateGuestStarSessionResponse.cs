@@ -1,12 +1,16 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.GuestStar.CreateGuestStarSession;
-
-public class CreateGuestStarSessionResponse
+namespace TwitchLib.Api.Helix.Models.GuestStar.CreateGuestStarSession
 {
     /// <summary>
-    /// <para>Summary of the session details.</para>
+    /// Create guest star session repsonse object.
     /// </summary>
-    [JsonProperty(PropertyName = "data")]
-    public GuestStarSession[] Data { get; protected set; }
+    public class CreateGuestStarSessionResponse
+    {
+        /// <summary>
+        /// <para>Summary of the session details.</para>
+        /// </summary>
+        [JsonProperty(PropertyName = "data")]
+        public GuestStarSession[] Data { get; protected set; }
+    }
 }

@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus
 {
+    /// <summary>
+    /// The message and whether Twitch would approve it for chat.
+    /// </summary>
     public class AutoModResult
     {
         /// <summary>

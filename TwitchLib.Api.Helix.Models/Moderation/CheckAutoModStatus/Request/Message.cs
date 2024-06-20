@@ -2,6 +2,9 @@
 
 namespace TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus
 {
+    /// <summary>
+    /// The message to check.
+    /// </summary>
     public class Message
     {
         /// <summary>

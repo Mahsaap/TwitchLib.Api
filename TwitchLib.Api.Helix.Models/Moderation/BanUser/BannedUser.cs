@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace TwitchLib.Api.Helix.Models.Moderation.BanUser
 {
+    /// <summary>
+    /// Identifies the user and type of ban.
+    /// </summary>
     public class BannedUser
     {
         /// <summary>
