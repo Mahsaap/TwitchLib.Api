@@ -133,11 +133,6 @@ namespace TwitchLib.Api.Helix
       public Subscriptions Subscriptions { get; }
 
       /// <summary>
-      /// Tag related Helix APIs
-      /// </summary>
-      public Tags Tags { get; }
-
-      /// <summary>
       /// Stream Team related Helix APIs
       /// </summary>
       public Teams Teams { get; }
@@ -194,7 +189,6 @@ namespace TwitchLib.Api.Helix
          Search = new Search(Settings, rateLimiter, http);
          Streams = new Streams(Settings, rateLimiter, http);
          Subscriptions = new Subscriptions(Settings, rateLimiter, http);
-         Tags = new Tags(Settings, rateLimiter, http);
          Teams = new Teams(Settings, rateLimiter, http);
          Users = new Users(Settings, rateLimiter, http);
          Videos = new Videos(Settings, rateLimiter, http);

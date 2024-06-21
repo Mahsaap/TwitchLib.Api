@@ -10,7 +10,6 @@ using TwitchLib.Api.Core.Interfaces;
 using TwitchLib.Api.Helix.Models.Users.GetUserActiveExtensions;
 using TwitchLib.Api.Helix.Models.Users.GetUserBlockList;
 using TwitchLib.Api.Helix.Models.Users.GetUserExtensions;
-using TwitchLib.Api.Helix.Models.Users.GetUserFollows;
 using TwitchLib.Api.Helix.Models.Users.GetUsers;
 using TwitchLib.Api.Helix.Models.Users.Internal;
 using TwitchLib.Api.Helix.Models.Users.UpdateUserExtensions;
