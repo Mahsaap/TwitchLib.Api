@@ -1,21 +1,20 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage
+namespace TwitchLib.Api.Helix.Models.Chat.SendChatMessage;
+
+/// <summary>
+/// Drop Reason
+/// </summary>
+public class DropReason
 {
     /// <summary>
-    /// Drop Reason
+    /// Code for why the message was dropped.
     /// </summary>
-    public class DropReason
-    {
-        /// <summary>
-        /// Code for why the message was dropped.
-        /// </summary>
-        [JsonProperty(PropertyName = "code", NullValueHandling = NullValueHandling.Ignore)]
-        public string Code { get; set; } = string.Empty;
-        /// <summary>
-        /// Message for why the message was dropped.
-        /// </summary>
-        [JsonProperty(PropertyName = "message", NullValueHandling = NullValueHandling.Ignore)]
-        public string Message { get; set; } = string.Empty;
-    }
+    [JsonProperty(PropertyName = "code", NullValueHandling = NullValueHandling.Ignore)]
+    public string Code { get; set; } = string.Empty;
+    /// <summary>
+    /// Message for why the message was dropped.
+    /// </summary>
+    [JsonProperty(PropertyName = "message", NullValueHandling = NullValueHandling.Ignore)]
+    public string Message { get; set; } = string.Empty;
 }

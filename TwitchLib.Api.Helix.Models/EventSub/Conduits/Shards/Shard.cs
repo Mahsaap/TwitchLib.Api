@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using TwitchLib.Api.Helix.Models.EventSub.Conduits.Shards.UpdateConduitShards;
 
 namespace TwitchLib.Api.Helix.Models.EventSub.Conduits.Shards;
 

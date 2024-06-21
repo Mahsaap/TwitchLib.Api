@@ -1,22 +1,21 @@
 ﻿using Newtonsoft.Json;
 
-namespace TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus
+namespace TwitchLib.Api.Helix.Models.Moderation.CheckAutoModStatus;
+
+/// <summary>
+/// The message to check.
+/// </summary>
+public class Message
 {
     /// <summary>
-    /// The message to check.
+    /// Developer-generated identifier for mapping messages to results.
     /// </summary>
-    public class Message
-    {
-        /// <summary>
-        /// Developer-generated identifier for mapping messages to results.
-        /// </summary>
-        [JsonProperty(PropertyName = "msg_id")]
-        public string MsgId { get; set; }
+    [JsonProperty(PropertyName = "msg_id")]
+    public string MsgId { get; set; }
 
-        /// <summary>
-        /// Message text.
-        /// </summary>
-        [JsonProperty(PropertyName = "msg_text")]
-        public string MsgText { get; set; }
-    }
+    /// <summary>
+    /// Message text.
+    /// </summary>
+    [JsonProperty(PropertyName = "msg_text")]
+    public string MsgText { get; set; }
 }
